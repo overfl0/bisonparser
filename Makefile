@@ -1,5 +1,5 @@
-CC     = gcc
-CFLAGS = -Wall -ansi -pedantic -Wno-unused-function -Wno-implicit-function-declaration
+CC     = g++
+CFLAGS = -Wall -ansi -pedantic -Wno-unused-function
 LFLAGS = -lm 
 LEX    = flex
 LEXFLAGS =

@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <math.h>
+#include <string.h>
+
 #define  YYERROR_VERBOSE
 int yyerror(const char *s) {
     fprintf(stderr, "blad: %s\n", s);
@@ -11,11 +13,13 @@ int yylex(void);
 %}
 
 %union {
-double val;
+double ival;
+char *sval;
 }
-%token <val> LICZBA
-%token <val> PL MN MP DV PW LP RP
-%type <val> wyr
+%token <ival> NUMBER
+%token <ival> PL MN MP DV PW LP RP
+%token <sval> STRING
+%type <ival> wyr
 %left PL MN
 %left MP DV
 %left NEG
@@ -28,7 +32,7 @@ wejscie: /* nic */
 linia:  '\n'
     | wyr '\n' { printf("\nWYNIK: %.3g\n\n", $1); }
 ;
-wyr:  LICZBA      { $$ = $1; }
+wyr:  NUMBER      { $$ = $1; }
     | wyr PL wyr { $$ = $1 + $3; }
     | wyr MN wyr { $$ = $1 - $3; }
     | wyr MP wyr { $$ = $1 * $3; }
