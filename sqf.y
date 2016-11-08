@@ -19,7 +19,7 @@ char *sval;
 %token <ival> NUMBER
 %token <ival> PL MN MP DV PW LP RP
 %token <sval> STRING
-%type <ival> wyr
+%type <sval> wyr
 %left PL MN
 %left MP DV
 %left NEG
@@ -29,9 +29,10 @@ char *sval;
 wejscie: /* nic */
     | wejscie linia
 ;
-linia:  '\n'
-    | wyr '\n' { printf("\nWYNIK: %.3g\n\n", $1); }
+linia: // '\n' |
+    wyr '\n' { printf("\nWYNIK: %s\n\n", $1); }
 ;
+/*
 wyr:  NUMBER      { $$ = $1; }
     | wyr PL wyr { $$ = $1 + $3; }
     | wyr MN wyr { $$ = $1 - $3; }
@@ -40,6 +41,12 @@ wyr:  NUMBER      { $$ = $1; }
     | wyr PW wyr { $$ = pow($1,$3); }
     | MN wyr %prec NEG { $$ = -$2; }
     | LP wyr RP { $$ = $2; }
+;*/
+
+wyr:
+    STRING { $$ = strdup($1); }
+    |NUMBER      { char tmp[100]; sprintf(tmp, "%f", $1); $$ = strdup(tmp); }
+
 ;
 %%
 int main (void)

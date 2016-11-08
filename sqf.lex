@@ -20,7 +20,7 @@
     return NUMBER;
 }
 
-"\"[a-zA-Z0-9]*\"" {
+"\""[a-zA-Z0-9]*"\"" {
     yylval.sval = strdup(yytext);
     return STRING;
 }
