@@ -17,13 +17,8 @@ double ival;
 char *sval;
 }
 %token <ival> NUMBER
-%token <ival> PL MN MP DV PW LP RP
 %token <sval> STRING
 %type <sval> wyr
-%left PL MN
-%left MP DV
-%left NEG
-%right PW
 
 %%
 wejscie: /* nic */
@@ -44,7 +39,7 @@ wyr:  NUMBER      { $$ = $1; }
 ;*/
 
 wyr:
-    STRING { $$ = strdup($1); }
+    STRING { $$ = $1; }
     |NUMBER      { char tmp[100]; sprintf(tmp, "%f", $1); $$ = strdup(tmp); }
 
 ;

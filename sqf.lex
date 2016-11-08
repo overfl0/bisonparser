@@ -25,13 +25,6 @@
     return STRING;
 }
 
-"+" { return PL; }
-"-" { return MN; }
-"*" { return MP; }
-"/" { return DV; }
-"^" { return PW; }
-"(" { return LP; }
-")" { return RP; }
 
 \n {return *yytext;}
 
