@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
+#include "objtype.h"
 
 #define  YYERROR_VERBOSE
 int yyerror(const char *s) {
@@ -10,22 +11,19 @@ int yyerror(const char *s) {
     return 0;
 }
 int yylex(void);
+
 %}
 
-%union {
-double ival;
-char *sval;
-}
-%token <ival> NUMBER
-%token <sval> STRING
-%type <sval> wyr
+%token NUMBER
+%token STRING
+//%type <obj> wyr
 
 %%
 wejscie: /* nic */
     | wejscie linia
 ;
 linia: // '\n' |
-    wyr '\n' { printf("\nWYNIK: %s\n\n", $1); }
+    wyr '\n' { printf("\nWYNIK: %s\n\n", ($1).toString()); }
 ;
 /*
 wyr:  NUMBER      { $$ = $1; }
@@ -40,7 +38,7 @@ wyr:  NUMBER      { $$ = $1; }
 
 wyr:
     STRING { $$ = $1; }
-    |NUMBER      { char tmp[100]; sprintf(tmp, "%f", $1); $$ = strdup(tmp); }
+    | NUMBER { $$ = $1; }     //{ char tmp[100]; sprintf(tmp, "%f", $1); $$ = strdup(tmp); }
 
 ;
 %%
