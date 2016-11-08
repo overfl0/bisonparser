@@ -20,13 +20,13 @@ $(EXEC): $(OBJS)
 %.yy.o: %.yy.c
 	$(CC) -c $(CFLAGS) $<
 
-%.yy.c: %.lex
+%.yy.c: %.lex objtype.h
 	$(LEX) $(LEXFLAGS) -o$(<:.lex=.yy.c) $<
 
 %.tab.o: %.tab.c
 	$(CC) -c $(CFLAGS) $<
 
-%.tab.c: %.y
+%.tab.c: %.y objtype.h
 	$(YAC) $(YACFLAGS) -o $(<:.y=.tab.c) $<
 
 clean:
