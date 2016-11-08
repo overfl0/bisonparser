@@ -36,13 +36,17 @@ public:
         
         case array:{
             char tmp[1000];
-            tmp[0] = '\0';
+            tmp[0] = '[';
+            tmp[1] = '\0';
             
             for (auto &elem : arr)
             {
                 strcat(tmp, elem.toString());
-                return strdup(tmp);
+                strcat(tmp, ", ");
             }
+
+            strcat(tmp, "]");
+            return strdup(tmp);
             
             break;
             }
