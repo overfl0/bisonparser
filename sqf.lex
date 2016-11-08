@@ -26,6 +26,9 @@
     return STRING;
 }
 
+"[" { return LEFTARR; }
+"]" { return RIGHTARR; }
+"," { return COMMA; }
 
 \n {return *yytext;}
 

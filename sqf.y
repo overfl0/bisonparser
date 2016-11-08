@@ -16,30 +16,30 @@ int yylex(void);
 
 %token NUMBER
 %token STRING
-//%type <obj> wyr
+%token LEFTARR
+%token RIGHTARR
+
+%left COMMA
 
 %%
-wejscie: /* nic */
-    | wejscie linia
+input: /* EMPTY */
+    | input line
 ;
-linia: // '\n' |
-    wyr '\n' { printf("\nWYNIK: %s\n\n", ($1).toString()); }
+line: // '\n' |
+    expr '\n' { printf("\nWYNIK: %s\n\n", ($1).toString()); }
 ;
-/*
-wyr:  NUMBER      { $$ = $1; }
-    | wyr PL wyr { $$ = $1 + $3; }
-    | wyr MN wyr { $$ = $1 - $3; }
-    | wyr MP wyr { $$ = $1 * $3; }
-    | wyr DV wyr { $$ = $1 / $3; }
-    | wyr PW wyr { $$ = pow($1,$3); }
-    | MN wyr %prec NEG { $$ = -$2; }
-    | LP wyr RP { $$ = $2; }
-;*/
 
-wyr:
-    STRING { $$ = $1; }
-    | NUMBER { $$ = $1; }     //{ char tmp[100]; sprintf(tmp, "%f", $1); $$ = strdup(tmp); }
+array_contents: /* EMPTY */   { pobject obj; obj.type = array; $$ = obj; printf("Hit 1: %s\n", $$.toString());}
+    | expr                    { pobject obj; obj.type = array; obj.arr.push_back($1); $$ = obj; printf("Hit 2: %s\n", $$.toString());}
+    | array_contents COMMA expr { $$.arr.push_back($3); printf("Hit 3: %s\n", $$.toString());}
 
+array:
+    LEFTARR array_contents RIGHTARR { $$ = $2; printf("Hit 4: %s\n", $$.toString());}
+
+expr:
+    array    { $$ = $1; printf("Hit 7: %s\n", $$.toString());}
+    | STRING { $$ = $1; printf("Hit 5: %s\n", $$.toString());}
+    | NUMBER { $$ = $1; printf("Hit 6: %s\n", $$.toString());}
 ;
 %%
 int main (void)
@@ -50,3 +50,5 @@ int main (void)
     yyparse();
     return 0;
 }
+
+// make clean && make && echo -ne '"asd"\n34232\n["pierwszy","drugi", 6, ["sub1", "sub2"]]\n[]\n' | ./sqf
