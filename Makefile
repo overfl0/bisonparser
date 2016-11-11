@@ -1,6 +1,6 @@
 CC     = g++
-CFLAGS = -Wall -Wextra -pedantic -Wno-unused-function -std=c++11
-LFLAGS = -lm 
+CFLAGS = -Wall -Wextra -pedantic -Wno-unused-function -std=c++11 `python3m-config --cflags`
+LFLAGS = -lm `python3m-config --ldflags`
 LEX    = flex
 LEXFLAGS =
 YAC    = bison

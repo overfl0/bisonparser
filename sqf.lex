@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "objtype.h"
+#include <Python.h>
+
+#define YYSTYPE PyObject *
 #include "sqf.tab.h"
 
 %}
@@ -12,17 +14,17 @@
 [ \t]
 
 [0-9]+    { 
-    yylval.setDouble(atof(yytext));
+    yylval = PyFloat_FromDouble(atof(yytext));
     return NUMBER;
 }
 
 [0-9]+"."[0-9]*        { 
-    yylval.setDouble(atof(yytext));
+    yylval = PyFloat_FromDouble(atof(yytext));
     return NUMBER;
 }
 
 "\""[a-zA-Z0-9]*"\"" {
-    yylval.setString(strdup(yytext));
+    yylval = PyUnicode_DecodeFSDefault(yytext);
     return STRING;
 }
 
